@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.staynoob.social.autoconfigure.SocialAutoConfiguration,\
+cn.staynoob.social.provider.qq.autoconfigure.QQAutoConfiguration,\
+cn.staynoob.social.provider.wechat.autoconfigure.WechatAutoConfiguration,\
+cn.staynoob.social.provider.weibo.autoconfigure.WeiboAutoConfiguration
