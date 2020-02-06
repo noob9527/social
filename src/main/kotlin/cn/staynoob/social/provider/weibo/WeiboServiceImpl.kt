@@ -1,6 +1,5 @@
 package cn.staynoob.social.provider.weibo
 
-import cn.staynoob.social.provider.weibo.model.WeiboUserInfo
 import cn.staynoob.social.share.ApiException
 import cn.staynoob.social.share.initUnrest
 import cn.staynoob.social.share.objectMapper

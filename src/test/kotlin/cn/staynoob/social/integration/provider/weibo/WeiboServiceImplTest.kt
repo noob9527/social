@@ -18,7 +18,7 @@ class WeiboServiceImplTest : IntegrationTestBase() {
     @Test
     @DisplayName("getUserInfo test")
     fun test100() {
-        val accessToken = env.getProperty("social.weibo.accessToken")
+        val accessToken = env.getProperty("social.weibo.accessToken")!!
 
         val res = service.getUserInfo(accessToken)
 

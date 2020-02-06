@@ -1,4 +1,4 @@
-package cn.staynoob.social.provider.weibo.model
+package cn.staynoob.social.provider.weibo
 
 class WeiboErrorResponse(
         val error_code: Int,

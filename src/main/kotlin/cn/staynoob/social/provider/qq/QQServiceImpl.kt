@@ -1,7 +1,6 @@
 package cn.staynoob.social.provider.qq
 
 import cn.staynoob.social.provider.qq.autoconfigure.QQProperties
-import cn.staynoob.social.provider.qq.model.QQUserInfo
 import cn.staynoob.social.share.ApiException
 import cn.staynoob.social.share.initUnrest
 import cn.staynoob.social.share.objectMapper
@@ -52,6 +51,6 @@ class QQServiceImpl(
                 .queryString("oauth_consumer_key", appId)
                 .asObject(QQUserInfo::class.java)
 
-        return res.successBody.apply { this.openId = openId }
+        return res.successBody.copy(openId = openId)
     }
 }

@@ -18,8 +18,8 @@ class WechatServiceImplTest : IntegrationTestBase() {
     @Test
     @DisplayName("getUserInfo test")
     fun test100() {
-        val accessToken = env.getProperty("social.wechat.accessToken")
-        val openId = env.getProperty("social.wechat.openId")
+        val accessToken = env.getProperty("social.wechat.accessToken")!!
+        val openId = env.getProperty("social.wechat.openId")!!
 
         val res = service.getUserInfo(accessToken, openId)
 

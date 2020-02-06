@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 
-class QQServiceImplTest : IntegrationTestBase() {
+class QQPropertiesServiceImplTest : IntegrationTestBase() {
     @Autowired
     private lateinit var service: QQService
 
@@ -18,7 +18,7 @@ class QQServiceImplTest : IntegrationTestBase() {
     @Test
     @DisplayName("getUserInfo test")
     fun test100() {
-        val accessToken = env.getProperty("social.qq.accessToken")
+        val accessToken = env.getProperty("social.qq.accessToken")!!
 
         val res = service.getUserInfo(accessToken)
 

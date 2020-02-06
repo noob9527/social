@@ -1,6 +1,5 @@
 package cn.staynoob.social.provider.wechat
 
-import cn.staynoob.social.provider.wechat.model.WechatUserInfo
 import cn.staynoob.social.share.ApiException
 import cn.staynoob.social.share.initUnrest
 import cn.staynoob.social.share.objectMapper
