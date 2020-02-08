@@ -1,10 +1,18 @@
 package cn.staynoob.social.share
 
-import com.mashape.unirest.http.HttpResponse
+import kong.unirest.HttpResponse
+import kotlin.reflect.KClass
 
-internal val <T : Any> HttpResponse<T>.successBody: T
-    get() {
+internal fun <T : Any, E : Any> HttpResponse<T>.successBody(
+        errorClazz: KClass<E>,
+        errorHandler: (E) -> Unit
+): T {
+    this.ifFailure(errorClazz.java) {
         if (this.status < 200 || status >= 300)
             throw HttpException(status, statusText)
-        return body
+        val error = it?.body ?: throw HttpException(it.status, it.statusText)
+        errorHandler.invoke(error)
     }
+    return body
+}
+

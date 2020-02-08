@@ -1,12 +1,12 @@
 package cn.staynoob.social.share
 
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.mashape.unirest.http.ObjectMapper
-import com.mashape.unirest.http.Unirest
+import kong.unirest.ObjectMapper
+import kong.unirest.Unirest
 import java.io.IOException
 
 
-private val unirestObjectMapper = object : ObjectMapper {
+val unirestObjectMapper = object : ObjectMapper {
     override fun <T : Any?> readValue(value: String, valueType: Class<T>): T {
         return try {
             objectMapper.readValue(value, valueType)
@@ -25,6 +25,6 @@ private val unirestObjectMapper = object : ObjectMapper {
 }
 
 internal fun initUnrest() {
-    Unirest.setObjectMapper(unirestObjectMapper)
+    Unirest.config().objectMapper = unirestObjectMapper
 }
 

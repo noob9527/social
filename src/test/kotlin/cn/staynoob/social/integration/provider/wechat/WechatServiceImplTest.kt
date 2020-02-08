@@ -22,6 +22,7 @@ class WechatServiceImplTest : IntegrationTestBase() {
         val openId = env.getProperty("social.wechat.openId")!!
 
         val res = service.getUserInfo(accessToken, openId)
+        println(res)
 
         assertThat(res).isNotNull()
     }

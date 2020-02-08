@@ -1,4 +1,4 @@
-package cn.staynoob.social.provider.weibo.autoconfigure;
+package cn.staynoob.social.provider.google.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
@@ -6,8 +6,8 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.NotNull;
 
 @Validated
-@ConfigurationProperties(prefix = "social.weibo")
-public class WeiboProperties {
+@ConfigurationProperties(prefix = "social.google")
+public class GoogleProperties {
 
     @NotNull
     private String clientId;

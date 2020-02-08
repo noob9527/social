@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 
-class QQPropertiesServiceImplTest : IntegrationTestBase() {
+class QQServiceImplTest : IntegrationTestBase() {
     @Autowired
     private lateinit var service: QQService
 

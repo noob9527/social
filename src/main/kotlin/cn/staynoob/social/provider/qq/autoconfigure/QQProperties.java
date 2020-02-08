@@ -10,24 +10,24 @@ import javax.validation.constraints.NotNull;
 public class QQProperties {
 
     @NotNull
-    private String appId;
+    private String clientId;
     @NotNull
-    private String appSecret;
+    private String clientSecret;
 
-    public String getAppId() {
-        return appId;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setAppId(String appId) {
-        this.appId = appId;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
-    public String getAppSecret() {
-        return appSecret;
+    public String getClientSecret() {
+        return clientSecret;
     }
 
-    public void setAppSecret(String appSecret) {
-        this.appSecret = appSecret;
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
     }
 
 }

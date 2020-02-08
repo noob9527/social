@@ -29,7 +29,7 @@ ext {
     kotlinVersion = '1.2.71'
     springBootVersion = '2.0.2.RELEASE'
     jacksonKotlinModuleVersion = '2.9.0'
-    unirestVersion = '1.4.9'
+    unirestVersion = '3.4.02'
     junitVersion = '5.4.2'
 }
 
@@ -51,7 +51,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter')
     implementation('org.hibernate:hibernate-validator:+')
 
-    implementation("com.mashape.unirest:unirest-java:$unirestVersion")
+    implementation("com.konghq:unirest-java:$unirestVersion")
 
     // refer to
     // https://docs.spring.io/spring-boot/docs/2.1.3.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor
@@ -69,6 +69,12 @@ dependencies {
     }
     // junit5
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
 }
 
 compileKotlin {
