@@ -4,15 +4,25 @@ package cn.staynoob.social.provider.facebook
 data class FacebookUserInfo(
         val id: String = "",
         val name: String? = null,
-        val given_name: String? = null,
-        val family_name: String? = null,
         val email: String? = null,
-        val verified_email: Boolean = false,
-        val gender: String? = null,
-        val picture: String? = null,
-        val link: String? = null,
-        val hd: String? = null,
-        val locale: String? = null,
 
-        val etag: String? = null
-)
+        val first_name: String? = null,
+        val last_name: String? = null,
+
+        val picture: FacebookPicture? = null
+) {
+
+    val unstablePictureUrl = picture
+            ?.data
+            ?.url
+
+    data class FacebookPicture(
+            val data: FacebookPictureData? = null
+    )
+
+    data class FacebookPictureData(
+            val url: String? = null,
+            val width: String? = null,
+            val height: String? = null
+    )
+}

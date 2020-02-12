@@ -2,13 +2,15 @@ package cn.staynoob.social.provider.facebook
 
 import cn.staynoob.social.provider.facebook.autoconfigure.FacebookProperties
 import cn.staynoob.social.share.ApiException
+import cn.staynoob.social.share.Unirest
 import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
-import cn.staynoob.social.share.Unirest
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.primaryConstructor
 
 @Service
 @ConditionalOnProperty(prefix = "social.facebook", name = ["client-id"])
@@ -28,40 +30,29 @@ class FacebookServiceImpl(
 
     internal fun <T : Any> HttpResponse<T>.facebookSuccessBody(): T {
         return this.successBody(FacebookErrorResponse::class) {
-            throw ApiException(message = "error=${it.error}, error_description=${it.error_description}")
+            throw ApiException(message = it.error.message)
         }
     }
 
     override fun code2token(request: FacebookCode2TokenRequest): FacebookToken {
-        val req = Unirest.post(TOKEN_ENDPOINT)
-                .field("code", request.code)
-                .field("client_id", properties.clientId)
-                .field("client_secret", properties.clientSecret)
-                .field("redirect_uri", request.redirect_uri)
-                .field("grant_type", "authorization_code")
+        val req = Unirest.post("https://graph.facebook.com/v6.0/oauth/access_token")
+                .queryString("code", request.code)
+                .queryString("client_id", properties.clientId)
+                .queryString("client_secret", properties.clientSecret)
+                .queryString("redirect_uri", request.redirect_uri)
 
         return req.asObject(FacebookToken::class.java).facebookSuccessBody()
-    }
-
-    override fun refreshToken(request: FacebookRefreshTokenRequest): FacebookToken {
-        val req = Unirest.post(TOKEN_ENDPOINT)
-                .field("refresh_token", request.refreshToken)
-                .field("client_id", properties.clientId)
-                .field("client_secret", properties.clientSecret)
-                .field("grant_type", "refresh_token")
-
-        return req.asObject(FacebookToken::class.java).facebookSuccessBody()
-    }
-
-    override fun revokeToken(token: String) {
-        val req = Unirest.get(TOKEN_ENDPOINT)
-                .queryString("token", token)
-        req.asEmpty().facebookSuccessBody()
     }
 
     override fun getUserInfo(accessToken: String): FacebookUserInfo {
-        val req = Unirest.get("https://www.facebookapis.com/oauth2/v2/userinfo")
+        val fields = FacebookUserInfo::class
+                .primaryConstructor!!.parameters
+                .joinToString(",") { it.name ?: "" }
+//                .declaredMemberProperties
+//                .joinToString(",") { it.name }
+        val req = Unirest.get("https://graph.facebook.com/v6.0/me")
                 .header("Authorization", "Bearer $accessToken")
+                .queryString("fields", fields)
         return req.asObject(FacebookUserInfo::class.java).facebookSuccessBody()
     }
 }
