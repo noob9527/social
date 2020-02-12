@@ -2,7 +2,6 @@ package cn.staynoob.social.share
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import kong.unirest.ObjectMapper
-import kong.unirest.Unirest
 import java.io.IOException
 
 
@@ -24,7 +23,7 @@ val unirestObjectMapper = object : ObjectMapper {
     }
 }
 
-internal fun initUnrest() {
-    Unirest.config().objectMapper = unirestObjectMapper
+internal val Unirest = kong.unirest.Unirest.spawnInstance().apply {
+    config().objectMapper = unirestObjectMapper
 }
 

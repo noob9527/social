@@ -17,13 +17,13 @@ class AuthCtrl {
         println(map)
     }
 
-    @PostMapping("/github")
-    fun github(@RequestBody map: Map<String, Any?>) {
+    @PostMapping("/facebook")
+    fun facebook(@RequestBody map: Map<String, Any?>) {
         println(map)
     }
 
-    @PostMapping("/facebook")
-    fun facebook(@RequestBody map: Map<String, Any?>) {
+    @PostMapping("/linkedin")
+    fun linkedin(@RequestBody map: Map<String, Any?>) {
         println(map)
     }
 

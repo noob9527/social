@@ -3,7 +3,7 @@ package cn.staynoob.social.provider.weibo
 import cn.staynoob.social.share.ApiException
 import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
-import kong.unirest.Unirest
+import cn.staynoob.social.share.Unirest
 
 class WeiboServiceImpl : WeiboService {
 

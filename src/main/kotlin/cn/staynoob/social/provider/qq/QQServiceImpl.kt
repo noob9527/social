@@ -6,7 +6,7 @@ import cn.staynoob.social.share.objectMapper
 import cn.staynoob.social.share.successBody
 import com.fasterxml.jackson.module.kotlin.readValue
 import kong.unirest.HttpResponse
-import kong.unirest.Unirest
+import cn.staynoob.social.share.Unirest
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 
