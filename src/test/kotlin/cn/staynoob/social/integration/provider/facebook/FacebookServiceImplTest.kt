@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 
+@Disabled
 class FacebookServiceImplTest : IntegrationTestBase() {
     @Autowired
     private lateinit var service: FacebookService

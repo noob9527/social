@@ -6,7 +6,7 @@ data class GoogleUserInfo(
         val name: String? = null,
         val given_name: String? = null,
         val family_name: String? = null,
-        val email: String? = null,
+        val email: String = "",
         val verified_email: Boolean = false,
         val gender: String? = null,
         val picture: String? = null,
