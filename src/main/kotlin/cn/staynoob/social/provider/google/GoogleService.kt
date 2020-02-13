@@ -18,5 +18,9 @@ interface GoogleService {
      */
     fun revokeToken(token: String)
 
+    /**
+     * Note that the token permission scope should at least have
+     * 'profile', 'email'
+     */
     fun getUserInfo(accessToken: String): GoogleUserInfo
 }

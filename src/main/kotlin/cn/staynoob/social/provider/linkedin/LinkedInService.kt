@@ -8,5 +8,9 @@ interface LinkedInService {
      */
     fun code2token(request: LinkedInCode2TokenRequest): LinkedInToken
 
+    /**
+     * Note that the token permission scope should at least have
+     * 'r_emailaddress', 'r_liteprofile'
+     */
     fun getUserInfo(accessToken: String): LinkedInUserInfo
 }

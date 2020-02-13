@@ -96,3 +96,12 @@ sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
 
+// update source
+// refer to https://stackoverflow.com/questions/28630470/upload-sources-to-nexus-repository-with-gradle
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+}
+artifacts {
+    archives sourcesJar
+}

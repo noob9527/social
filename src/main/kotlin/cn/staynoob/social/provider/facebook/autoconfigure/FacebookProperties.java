@@ -2,6 +2,7 @@ package cn.staynoob.social.provider.facebook.autoconfigure;
 
 import cn.staynoob.social.share.ProxyProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -16,6 +17,7 @@ public class FacebookProperties {
     @NotNull
     private String clientSecret;
     @Valid
+    @NestedConfigurationProperty
     private ProxyProperties proxy;
 
     public String getClientId() {

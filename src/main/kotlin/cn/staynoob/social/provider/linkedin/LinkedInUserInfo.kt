@@ -7,9 +7,9 @@ data class LinkedInUserInfo(
         val id: String = "",
         val localizedFirstName: String = "",
         val localizedLastName: String = "",
-        val profilePicture: ProfilePicture? = null
+        val profilePicture: ProfilePicture? = null,
+        var unstableEmailAddress: String = ""
 ) {
-
     val unstablePictureUrls = profilePicture
             ?.displayImagePage
             ?.elements

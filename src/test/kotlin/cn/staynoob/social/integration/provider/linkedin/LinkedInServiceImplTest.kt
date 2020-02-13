@@ -39,6 +39,7 @@ class LinkedInServiceImplTest : IntegrationTestBase() {
         )
         println(res)
         println(res.unstablePictureUrls)
+        println(res.unstableEmailAddress)
         assertThat(res.id).isNotBlank()
     }
 }

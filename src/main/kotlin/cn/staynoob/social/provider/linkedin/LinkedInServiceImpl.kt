@@ -2,9 +2,9 @@ package cn.staynoob.social.provider.linkedin
 
 import cn.staynoob.social.provider.linkedin.autoconfigure.LinkedInProperties
 import cn.staynoob.social.share.ApiException
+import cn.staynoob.social.share.SharedUnirest
 import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
-import cn.staynoob.social.share.SharedUnirest
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
@@ -45,8 +45,29 @@ class LinkedInServiceImpl(
     }
 
     override fun getUserInfo(accessToken: String): LinkedInUserInfo {
+        val email = getEmailAddress(accessToken)
+        val emailAddress = email.elements
+                .firstOrNull {
+                    it.primary
+                            && it.type == "EMAIL"
+                            && it.handle_ != null
+                }
+                ?.handle_
+                ?.emailAddress
+                ?: ""
+
         val req = SharedUnirest.get("https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))")
                 .header("Authorization", "Bearer $accessToken")
-        return req.asObject(LinkedInUserInfo::class.java).linkedinSuccessBody()
+        return req.asObject(LinkedInUserInfo::class.java)
+                .linkedinSuccessBody()
+                .apply {
+                    this.unstableEmailAddress = emailAddress
+                }
+    }
+
+    private fun getEmailAddress(accessToken: String): LinkedInEmail {
+        val req = SharedUnirest.get("https://api.linkedin.com/v2/clientAwareMemberHandles?q=members&projection=(elements*(primary,type,handle~))")
+                .header("Authorization", "Bearer $accessToken")
+        return req.asObject(LinkedInEmail::class.java).linkedinSuccessBody()
     }
 }
