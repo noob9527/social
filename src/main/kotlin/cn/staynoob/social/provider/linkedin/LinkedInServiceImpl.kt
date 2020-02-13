@@ -4,7 +4,7 @@ import cn.staynoob.social.provider.linkedin.autoconfigure.LinkedInProperties
 import cn.staynoob.social.share.ApiException
 import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
-import cn.staynoob.social.share.Unirest
+import cn.staynoob.social.share.SharedUnirest
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
@@ -33,7 +33,7 @@ class LinkedInServiceImpl(
     }
 
     override fun code2token(request: LinkedInCode2TokenRequest): LinkedInToken {
-        val req = Unirest.post(TOKEN_ENDPOINT)
+        val req = SharedUnirest.post(TOKEN_ENDPOINT)
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .field("code", request.code)
                 .field("client_id", properties.clientId)
@@ -45,7 +45,7 @@ class LinkedInServiceImpl(
     }
 
     override fun getUserInfo(accessToken: String): LinkedInUserInfo {
-        val req = Unirest.get("https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))")
+        val req = SharedUnirest.get("https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))")
                 .header("Authorization", "Bearer $accessToken")
         return req.asObject(LinkedInUserInfo::class.java).linkedinSuccessBody()
     }

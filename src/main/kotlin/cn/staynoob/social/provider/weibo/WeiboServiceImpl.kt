@@ -3,7 +3,7 @@ package cn.staynoob.social.provider.weibo
 import cn.staynoob.social.share.ApiException
 import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
-import cn.staynoob.social.share.Unirest
+import cn.staynoob.social.share.SharedUnirest
 
 class WeiboServiceImpl : WeiboService {
 
@@ -23,7 +23,7 @@ class WeiboServiceImpl : WeiboService {
     }
 
     private fun getUid(accessToken: String): String {
-        val res = Unirest.get("$API_URL/account/get_uid.json")
+        val res = SharedUnirest.get("$API_URL/account/get_uid.json")
                 .queryString("access_token", accessToken)
                 .asObject(UidResponse::class.java)
                 .successBody()
@@ -32,7 +32,7 @@ class WeiboServiceImpl : WeiboService {
 
     override fun getUserInfo(accessToken: String): WeiboUserInfo {
         val uid = getUid(accessToken)
-        return Unirest.get("$API_URL/users/show.json")
+        return SharedUnirest.get("$API_URL/users/show.json")
                 .queryString("access_token", accessToken)
                 .queryString("uid", uid)
                 .asObject(WeiboUserInfo::class.java)

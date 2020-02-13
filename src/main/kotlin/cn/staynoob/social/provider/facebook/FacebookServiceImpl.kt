@@ -2,14 +2,15 @@ package cn.staynoob.social.provider.facebook
 
 import cn.staynoob.social.provider.facebook.autoconfigure.FacebookProperties
 import cn.staynoob.social.share.ApiException
-import cn.staynoob.social.share.Unirest
+import cn.staynoob.social.share.configUnirest
 import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
+import kong.unirest.Unirest
+import kong.unirest.UnirestInstance
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
-import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.primaryConstructor
 
 @Service
@@ -20,12 +21,18 @@ class FacebookServiceImpl(
 
     companion object {
         private val logger = LoggerFactory.getLogger(FacebookServiceImpl::class.java)
-        private const val TOKEN_ENDPOINT = "https://oauth2.facebookapis.com/token"
     }
+
+    private lateinit var facebookUnirest: UnirestInstance
 
     @PostConstruct
     fun postConstruct() {
-        logger.info("register facebook service, clientId=${properties.clientId}")
+        facebookUnirest = Unirest.spawnInstance().apply {
+            configUnirest(this)
+            if (properties.proxy != null) {
+                config().proxy(properties.proxy.host, properties.proxy.port)
+            }
+        }
     }
 
     internal fun <T : Any> HttpResponse<T>.facebookSuccessBody(): T {
@@ -35,7 +42,7 @@ class FacebookServiceImpl(
     }
 
     override fun code2token(request: FacebookCode2TokenRequest): FacebookToken {
-        val req = Unirest.post("https://graph.facebook.com/v6.0/oauth/access_token")
+        val req = facebookUnirest.post("https://graph.facebook.com/v6.0/oauth/access_token")
                 .queryString("code", request.code)
                 .queryString("client_id", properties.clientId)
                 .queryString("client_secret", properties.clientSecret)
@@ -50,7 +57,7 @@ class FacebookServiceImpl(
                 .joinToString(",") { it.name ?: "" }
 //                .declaredMemberProperties
 //                .joinToString(",") { it.name }
-        val req = Unirest.get("https://graph.facebook.com/v6.0/me")
+        val req = facebookUnirest.get("https://graph.facebook.com/v6.0/me")
                 .header("Authorization", "Bearer $accessToken")
                 .queryString("fields", fields)
         return req.asObject(FacebookUserInfo::class.java).facebookSuccessBody()

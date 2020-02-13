@@ -1,8 +1,10 @@
 package cn.staynoob.social.provider.google.autoconfigure;
 
+import cn.staynoob.social.share.ProxyProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Validated
@@ -13,6 +15,8 @@ public class GoogleProperties {
     private String clientId;
     @NotNull
     private String clientSecret;
+    @Valid
+    private ProxyProperties proxy;
 
     public String getClientId() {
         return clientId;
@@ -28,6 +32,14 @@ public class GoogleProperties {
 
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
+    }
+
+    public ProxyProperties getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(ProxyProperties proxy) {
+        this.proxy = proxy;
     }
 
 }

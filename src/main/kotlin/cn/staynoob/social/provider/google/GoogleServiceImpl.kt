@@ -2,9 +2,11 @@ package cn.staynoob.social.provider.google
 
 import cn.staynoob.social.provider.google.autoconfigure.GoogleProperties
 import cn.staynoob.social.share.ApiException
+import cn.staynoob.social.share.configUnirest
 import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
-import cn.staynoob.social.share.Unirest
+import kong.unirest.Unirest
+import kong.unirest.UnirestInstance
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
@@ -21,9 +23,18 @@ class GoogleServiceImpl(
         private const val TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
     }
 
+    private lateinit var googleUnirest: UnirestInstance
+
     @PostConstruct
     fun postConstruct() {
         logger.info("register google service, clientId=${properties.clientId}")
+
+        googleUnirest = Unirest.spawnInstance().apply {
+            configUnirest(this)
+            if (properties.proxy != null) {
+                config().proxy(properties.proxy.host, properties.proxy.port)
+            }
+        }
     }
 
     internal fun <T : Any> HttpResponse<T>.googleSuccessBody(): T {
@@ -33,7 +44,7 @@ class GoogleServiceImpl(
     }
 
     override fun code2token(request: GoogleCode2TokenRequest): GoogleToken {
-        val req = Unirest.post(TOKEN_ENDPOINT)
+        val req = googleUnirest.post(TOKEN_ENDPOINT)
                 .field("code", request.code)
                 .field("client_id", properties.clientId)
                 .field("client_secret", properties.clientSecret)
@@ -44,7 +55,7 @@ class GoogleServiceImpl(
     }
 
     override fun refreshToken(request: GoogleRefreshTokenRequest): GoogleToken {
-        val req = Unirest.post(TOKEN_ENDPOINT)
+        val req = googleUnirest.post(TOKEN_ENDPOINT)
                 .field("refresh_token", request.refreshToken)
                 .field("client_id", properties.clientId)
                 .field("client_secret", properties.clientSecret)
@@ -54,13 +65,13 @@ class GoogleServiceImpl(
     }
 
     override fun revokeToken(token: String) {
-        val req = Unirest.get(TOKEN_ENDPOINT)
+        val req = googleUnirest.get(TOKEN_ENDPOINT)
                 .queryString("token", token)
         req.asEmpty().googleSuccessBody()
     }
 
     override fun getUserInfo(accessToken: String): GoogleUserInfo {
-        val req = Unirest.get("https://www.googleapis.com/oauth2/v2/userinfo")
+        val req = googleUnirest.get("https://www.googleapis.com/oauth2/v2/userinfo")
                 .header("Authorization", "Bearer $accessToken")
         return req.asObject(GoogleUserInfo::class.java).googleSuccessBody()
     }

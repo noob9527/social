@@ -4,7 +4,6 @@ import cn.staynoob.social.provider.facebook.FacebookCode2TokenRequest
 import cn.staynoob.social.provider.facebook.FacebookService
 import cn.staynoob.social.support.IntegrationTestBase
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -16,14 +15,6 @@ class FacebookServiceImplTest : IntegrationTestBase() {
     private lateinit var service: FacebookService
     @Autowired
     private lateinit var env: Environment
-
-    @BeforeEach
-    fun setUp() {
-        System.setProperty("http.proxyHost", "localhost")
-        System.setProperty("http.proxyPort", "1081")
-        System.setProperty("https.proxyHost", "localhost")
-        System.setProperty("https.proxyPort", "1081")
-    }
 
     @Test
     @Disabled

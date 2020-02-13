@@ -3,7 +3,7 @@ package cn.staynoob.social.provider.wechat
 import cn.staynoob.social.share.ApiException
 import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
-import cn.staynoob.social.share.Unirest
+import cn.staynoob.social.share.SharedUnirest
 
 class WechatServiceImpl : WechatService {
 
@@ -21,7 +21,7 @@ class WechatServiceImpl : WechatService {
     }
 
     override fun getUserInfo(accessToken: String, openId: String): WechatUserInfo {
-        return Unirest.get("$API_URL/sns/userinfo")
+        return SharedUnirest.get("$API_URL/sns/userinfo")
                 .queryString("access_token", accessToken)
                 .queryString("openid", openId)
                 .asObject(WechatUserInfo::class.java)

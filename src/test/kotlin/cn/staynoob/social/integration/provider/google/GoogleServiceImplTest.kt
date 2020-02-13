@@ -5,7 +5,6 @@ import cn.staynoob.social.provider.google.GoogleRefreshTokenRequest
 import cn.staynoob.social.provider.google.GoogleService
 import cn.staynoob.social.support.IntegrationTestBase
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -17,14 +16,6 @@ class GoogleServiceImplTest : IntegrationTestBase() {
     private lateinit var service: GoogleService
     @Autowired
     private lateinit var env: Environment
-
-    @BeforeEach
-    fun setUp() {
-        System.setProperty("http.proxyHost", "localhost")
-        System.setProperty("http.proxyPort", "1081")
-        System.setProperty("https.proxyHost", "localhost")
-        System.setProperty("https.proxyPort", "1081")
-    }
 
     @Test
     @Disabled

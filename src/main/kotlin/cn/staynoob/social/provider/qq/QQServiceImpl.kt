@@ -6,7 +6,7 @@ import cn.staynoob.social.share.objectMapper
 import cn.staynoob.social.share.successBody
 import com.fasterxml.jackson.module.kotlin.readValue
 import kong.unirest.HttpResponse
-import cn.staynoob.social.share.Unirest
+import cn.staynoob.social.share.SharedUnirest
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 
@@ -27,7 +27,7 @@ class QQServiceImpl(
     }
 
     private fun getOpenId(accessToken: String): String {
-        val res = Unirest.get("$API_URL/oauth2.0/me")
+        val res = SharedUnirest.get("$API_URL/oauth2.0/me")
                 .queryString("access_token", accessToken)
                 .asString()
                 .qqSuccessBody()
@@ -45,7 +45,7 @@ class QQServiceImpl(
 
     override fun getUserInfo(accessToken: String): QQUserInfo {
         val openId = getOpenId(accessToken)
-        val res = Unirest.get("$API_URL/user/get_user_info")
+        val res = SharedUnirest.get("$API_URL/user/get_user_info")
                 .queryString("access_token", accessToken)
                 .queryString("openid", openId)
                 .queryString("oauth_consumer_key", properties.clientId)
