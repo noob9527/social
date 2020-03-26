@@ -2,6 +2,7 @@ package cn.staynoob.social.support
 
 import cn.staynoob.social.autoconfigure.SocialAutoConfiguration
 import cn.staynoob.social.provider.facebook.autoconfigure.FacebookAutoConfiguration
+import cn.staynoob.social.provider.github.autoconfigure.GithubAutoConfiguration
 import cn.staynoob.social.provider.google.autoconfigure.GoogleAutoConfiguration
 import cn.staynoob.social.provider.linkedin.autoconfigure.LinkedInAutoConfiguration
 import cn.staynoob.social.provider.qq.autoconfigure.QQAutoConfiguration
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
         WechatAutoConfiguration::class,
         WeiboAutoConfiguration::class,
         GoogleAutoConfiguration::class,
+        GithubAutoConfiguration::class,
         LinkedInAutoConfiguration::class,
         FacebookAutoConfiguration::class
 )
