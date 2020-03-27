@@ -5,7 +5,9 @@ import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
 import cn.staynoob.social.share.SharedUnirest
 
-class WechatServiceImpl : WechatService {
+class WechatServiceImpl(
+        private val wechatProperties: WechatProperties
+) : WechatService {
 
     companion object {
         private const val API_URL = "https://api.weixin.qq.com"

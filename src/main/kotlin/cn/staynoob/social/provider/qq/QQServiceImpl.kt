@@ -1,17 +1,12 @@
 package cn.staynoob.social.provider.qq
 
-import cn.staynoob.social.provider.qq.autoconfigure.QQProperties
 import cn.staynoob.social.share.ApiException
+import cn.staynoob.social.share.SharedUnirest
 import cn.staynoob.social.share.objectMapper
 import cn.staynoob.social.share.successBody
 import com.fasterxml.jackson.module.kotlin.readValue
 import kong.unirest.HttpResponse
-import cn.staynoob.social.share.SharedUnirest
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.stereotype.Service
 
-@Service
-@ConditionalOnProperty(prefix = "social.qq", name = ["client-id"])
 class QQServiceImpl(
         private val properties: QQProperties
 ) : QQService {

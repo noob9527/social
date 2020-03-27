@@ -1,4 +1,10 @@
 buildscript {
+    ext {
+        kotlinVersion = '1.2.71'
+        jacksonKotlinModuleVersion = '2.9.0'
+        unirestVersion = '3.4.02'
+        junitVersion = '5.4.2'
+    }
     ext.repos = {
         mavenLocal()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
@@ -9,14 +15,14 @@ buildscript {
 }
 
 plugins {
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'org.jetbrains.kotlin.jvm' version '1.2.71'
     id 'org.jetbrains.kotlin.plugin.spring' version '1.2.71'
-    id "org.jetbrains.kotlin.kapt" version "1.2.30"
+    id 'org.jetbrains.kotlin.kapt' version "1.2.30"
+    id 'maven'
 }
 
 group 'cn.staynoob'
-version '1.0-SNAPSHOT'
+version = '0.0.2'
 sourceCompatibility = '1.8'
 
 repositories repos
@@ -25,48 +31,17 @@ allprojects {
     repositories repos
 }
 
-ext {
-    kotlinVersion = '1.2.71'
-    springBootVersion = '2.0.2.RELEASE'
-    jacksonKotlinModuleVersion = '2.9.0'
-    unirestVersion = '3.4.02'
-    junitVersion = '5.4.2'
-}
-
-// see https://spring.io/guides/gs/multi-module/
-dependencyManagement {
-    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
-}
-
-repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-}
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonKotlinModuleVersion}")
 
-    implementation('org.springframework.boot:spring-boot-starter')
     implementation('org.hibernate:hibernate-validator:+')
+    implementation('javax.validation:validation-api:2.0.1.Final')
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.8.0-beta4'
 
     implementation("com.konghq:unirest-java:$unirestVersion")
 
-    // refer to
-    // https://docs.spring.io/spring-boot/docs/2.1.3.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor
-    // https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-kotlin.html
-    // https://kotlinlang.org/docs/reference/kapt.html
-    // https://info.michael-simons.eu/2018/07/15/spring-boots-configuration-metadata-with-kotlin/
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    // somehow this line is also needed by idea
-    kapt 'org.springframework.boot:spring-boot-configuration-processor'
-
-    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-
-    testCompile("org.springframework.boot:spring-boot-starter-test") {
-        exclude group: "junit"
-    }
     // junit5
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
 }
@@ -96,12 +71,3 @@ sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
 
-// update source
-// refer to https://stackoverflow.com/questions/28630470/upload-sources-to-nexus-repository-with-gradle
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier.set('sources')
-    from sourceSets.main.allSource
-}
-artifacts {
-    archives sourcesJar
-}

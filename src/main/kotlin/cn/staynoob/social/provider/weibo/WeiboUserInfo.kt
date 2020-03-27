@@ -3,7 +3,7 @@ package cn.staynoob.social.provider.weibo
 
 data class WeiboUserInfo(
         val id: Long = 0,
-        val idstr: String? = "",
+        val idstr: String = "",
         val screen_name: String? = "",
         val province: Int? = null,
         val gender: String? = null,

@@ -1,6 +1,5 @@
 package cn.staynoob.social.provider.google
 
-import cn.staynoob.social.provider.google.autoconfigure.GoogleProperties
 import cn.staynoob.social.share.ApiException
 import cn.staynoob.social.share.configUnirest
 import cn.staynoob.social.share.successBody
@@ -8,12 +7,8 @@ import kong.unirest.HttpResponse
 import kong.unirest.Unirest
 import kong.unirest.UnirestInstance
 import org.slf4j.LoggerFactory
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
 
-@Service
-@ConditionalOnProperty(prefix = "social.google", name = ["client-id"])
 class GoogleServiceImpl(
         private val properties: GoogleProperties
 ) : GoogleService {
@@ -23,10 +18,9 @@ class GoogleServiceImpl(
         private const val TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
     }
 
-    private lateinit var googleUnirest: UnirestInstance
+    private val googleUnirest: UnirestInstance
 
-    @PostConstruct
-    fun postConstruct() {
+    init {
         logger.info("register google service, clientId=${properties.clientId}")
 
         googleUnirest = Unirest.spawnInstance().apply {

@@ -1,17 +1,12 @@
 package cn.staynoob.social.provider.linkedin
 
-import cn.staynoob.social.provider.linkedin.autoconfigure.LinkedInProperties
 import cn.staynoob.social.share.ApiException
 import cn.staynoob.social.share.SharedUnirest
 import cn.staynoob.social.share.successBody
 import kong.unirest.HttpResponse
 import org.slf4j.LoggerFactory
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
 
-@Service
-@ConditionalOnProperty(prefix = "social.linkedin", name = ["client-id"])
 class LinkedInServiceImpl(
         private val properties: LinkedInProperties
 ) : LinkedInService {
@@ -21,8 +16,7 @@ class LinkedInServiceImpl(
         private const val TOKEN_ENDPOINT = "https://www.linkedin.com/oauth/v2/accessToken"
     }
 
-    @PostConstruct
-    fun postConstruct() {
+    init {
         logger.info("register linkedin service, clientId=${properties.clientId}")
     }
 

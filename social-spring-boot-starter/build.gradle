@@ -1,0 +1,72 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.spring'
+
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'maven'
+}
+
+group = 'com.cpvsn'
+version = '0.0.2'
+sourceCompatibility = '1.8'
+
+ext {
+    junitVersion = '5.4.2'
+    springBootVersion = '2.0.2.RELEASE'
+}
+
+// see https://spring.io/guides/gs/multi-module/
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
+
+dependencies {
+    compile project(':')
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+
+    implementation('org.springframework.boot:spring-boot-autoconfigure')
+
+    // refer to
+    // https://docs.spring.io/spring-boot/docs/2.1.3.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor
+    // https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-kotlin.html
+    // https://kotlinlang.org/docs/reference/kapt.html
+    // https://info.michael-simons.eu/2018/07/15/spring-boots-configuration-metadata-with-kotlin/
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    // somehow this line is also needed by idea
+    kapt 'org.springframework.boot:spring-boot-configuration-processor'
+
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // test
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: "junit"
+    }
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '1.8'
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '1.8'
+    }
+}
+
+// this is necessary if you want to put java source code in the kotlin directory
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+}
+

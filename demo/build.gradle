@@ -1,13 +1,14 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jetbrains.kotlin.plugin.spring'
-    id 'io.spring.dependency-management'
 
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'org.springframework.boot' version '2.0.2.RELEASE'
+    id 'maven'
 }
 
 group = 'com.cpvsn'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2'
 sourceCompatibility = '1.8'
 
 ext {
@@ -15,7 +16,7 @@ ext {
 }
 
 dependencies {
-    compile project(':')
+    compile project(':social-spring-boot-starter')
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
@@ -45,6 +46,7 @@ compileTestKotlin {
     }
 }
 
-springBoot {
-    buildInfo()
+// https://docs.spring.io/spring-boot/docs/2.1.0.RELEASE/gradle-plugin/reference/html/#packaging-executable-and-normal
+jar {
+    enabled = true
 }
